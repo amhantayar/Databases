@@ -11,7 +11,21 @@ if not exists (select ID from PostActions where PostGUID = p_postguid and UserGU
 end if;
 
 if actiontype ='like' then
+		
+        SET SQL_SAFE_UPDATES=0;
 	   update PostActions set Is_Liked = ilike where PostGUID = postguid and UserGUID = userguid; 	
+       
+       SELECT COUNT(ID) INTO @likeCount 
+		FROM PostActions 
+		WHERE PostGUID= p_postguid and Is_Liked = 1;
+        
+        
+			update Posts 						
+			set Like_Count = @likeCount
+			where PostGUID = p_postguid;
+		SET SQL_SAFE_UPDATES=1;
+        
+       
 elseif actiontype ='love' then
 	BEGIN
     SET SQL_SAFE_UPDATES=0;
@@ -29,11 +43,36 @@ elseif actiontype ='love' then
 	SET SQL_SAFE_UPDATES=1;
     END;
 elseif actiontype ='view' then
+	SET SQL_SAFE_UPDATES=0;
 	update PostActions set Is_viewed = iview where PostGUID = postguid and UserGUID = userguid; 
+    
+    SELECT COUNT(ID) INTO @viewCount 
+    FROM PostActions 
+    WHERE PostGUID= p_postguid and Is_Viewed = 1;  
+    
+    update Posts 						
+        set View_Count = @viewCount
+        where PostGUID = p_postguid;
+    
+    SET SQL_SAFE_UPDATES=1;
 elseif actiontype ='answeredquestion' then
+	SET SQL_SAFE_UPDATES=0;
 	update PostActions set Is_AnsweredQuestion = answeredquestion where PostGUID = postguid and UserGUID = userguid;
+    SET SQL_SAFE_UPDATES=1;
 elseif actiontype ='rate' then
-	update PostActions set rate = irate where PostGUID = postguid and UserGUID = userguid; 	
+	SET SQL_SAFE_UPDATES=0;
+	update PostActions set rate = irate where PostGUID = postguid and UserGUID = userguid; 
+	
+    SELECT COUNT(ID),SUM(rate)  INTO @rateusercount , @totalrate
+    FROM PostActions 
+    WHERE PostGUID= postguid and rate > 0;  
+	select @rateusercount, @totalrate;
+	    
+		update Posts 						
+        set rating = @totalrate / @rateusercount
+        where PostGUID = p_postguid;
+	SET SQL_SAFE_UPDATES=1;
+    
 end if;
 
 END

@@ -13,13 +13,14 @@ end if;
 if actiontype ='like' then
 		
         SET SQL_SAFE_UPDATES=0;
-	   update PostActions set Is_Liked = ilike where PostGUID = postguid and UserGUID = userguid; 	
+	   update PostActions set Is_Liked = ilike where PostGUID = p_postguid and UserGUID = p_userguid; 	
+       
        
        SELECT COUNT(ID) INTO @likeCount 
 		FROM PostActions 
 		WHERE PostGUID= p_postguid and Is_Liked = 1;
         
-        
+       
 			update Posts 						
 			set Like_Count = @likeCount
 			where PostGUID = p_postguid;
@@ -29,7 +30,7 @@ if actiontype ='like' then
 elseif actiontype ='love' then
 	BEGIN
     SET SQL_SAFE_UPDATES=0;
-	update PostActions set Is_Loved = ilove where PostGUID = postguid and UserGUID = userguid; 
+	update PostActions set Is_Loved = ilove where PostGUID = p_postguid and UserGUID = p_userguid;
     SET SQL_SAFE_UPDATES=1;
     
     SELECT COUNT(ID) INTO @lovedCount 
@@ -44,7 +45,7 @@ elseif actiontype ='love' then
     END;
 elseif actiontype ='view' then
 	SET SQL_SAFE_UPDATES=0;
-	update PostActions set Is_viewed = iview where PostGUID = postguid and UserGUID = userguid; 
+	update PostActions set Is_viewed = iview where PostGUID = p_postguid and UserGUID = p_userguid;
     
     SELECT COUNT(ID) INTO @viewCount 
     FROM PostActions 
@@ -57,15 +58,16 @@ elseif actiontype ='view' then
     SET SQL_SAFE_UPDATES=1;
 elseif actiontype ='answeredquestion' then
 	SET SQL_SAFE_UPDATES=0;
-	update PostActions set Is_AnsweredQuestion = answeredquestion where PostGUID = postguid and UserGUID = userguid;
+	update PostActions set Is_AnsweredQuestion = answeredquestion 
+    where PostGUID = p_postguid and UserGUID = p_userguid;
     SET SQL_SAFE_UPDATES=1;
 elseif actiontype ='rate' then
 	SET SQL_SAFE_UPDATES=0;
-	update PostActions set rate = irate where PostGUID = postguid and UserGUID = userguid; 
+	update PostActions set rate = irate where PostGUID = p_postguid and UserGUID = p_userguid;
 	
     SELECT COUNT(ID),SUM(rate)  INTO @rateusercount , @totalrate
     FROM PostActions 
-    WHERE PostGUID= postguid and rate > 0;  
+    WHERE PostGUID= p_postguid and rate > 0;  
 	select @rateusercount, @totalrate;
 	    
 		update Posts 						

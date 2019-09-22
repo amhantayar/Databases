@@ -4,10 +4,9 @@ DECLARE startIndex  INT unsigned DEFAULT 0;
     set startIndex = (pPage - 1) * pCount; 
 	
 	create temporary table temp2
-     select SQL_CALC_FOUND_ROWS a.PostGUID
-     from Posts as a
-    left outer join PostActions b on a.PostGUID = b.PostGUID and b.UserGUID = userid
-    WHERE a.UserGUID = userid and a.FileType = 2;
+     select SQL_CALC_FOUND_ROWS PostGUID
+     from Posts 
+    WHERE UserGUID = userid and FileType = 2;
 	 
 select a.PostGUID,a.RecordStatus,a.Type, a.UserGUID, a.FileType, a.Videos, 
      CONVERT_TZ(a.Created_Time,'+00:00','+6:30') Created_Time ,

@@ -8,5 +8,6 @@ CREATE TABLE `User` (
   `DateOfBirth` datetime DEFAULT NULL,
   `Gender` varchar(15) DEFAULT NULL,
   `Photo` varchar(45) DEFAULT NULL,
+  `backgroundphoto` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`UserGUID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

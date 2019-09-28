@@ -1,6 +1,6 @@
 CREATE DEFINER=`admin`@`%` PROCEDURE `Insert_UserProfile`(
-IN pAccessID char(36),
-IN pUserID char(36),
+IN pAccessID char(50),
+IN pUserGUID char(36),
 IN pUserName varchar(50),
 IN pStatus int,
 IN pCreatedDateTime datetime,
@@ -30,11 +30,11 @@ VALUES
 	,pUserGUID
 	,pUserName
     ,pStatus
-    ,pCreatedDateTime
+    ,Now()
     ,pCountry
 	,pDateOfBirth
 	,pGender
 	,pPhoto
-	,pbackgroundphoto
+	,pBgPhoto
 );
 END

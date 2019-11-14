@@ -8,8 +8,7 @@ IN pCountry varchar(50),
 IN pDateOfBirth datetime,
 IN pGender varchar(15),
 IN pPhoto varchar(45),
-IN pBgPhoto varchar(45),
-IN pType int,
+IN pType varchar(20),
 IN pEmail varchar(20),
 IN pPhonenumber varchar(20)
 )
@@ -25,7 +24,6 @@ INSERT INTO User
 	,DateOfBirth
 	,Gender
 	,Photo
-	,backgroundphoto
     ,Type
     ,Email
     ,Phonenumber
@@ -41,7 +39,6 @@ VALUES
 	,pDateOfBirth
 	,pGender
 	,pPhoto
-	,pBgPhoto
     ,pType
     ,pEmail
     ,pPhonenumber

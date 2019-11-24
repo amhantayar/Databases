@@ -10,7 +10,10 @@ IN pGender varchar(15),
 IN pPhoto varchar(45),
 IN pType varchar(20),
 IN pEmail varchar(20),
-IN pPhonenumber varchar(20)
+IN pPhonenumber varchar(20),
+IN pGmailDisplayOption varchar(20),
+IN pMobileDisplayOption varchar(20),
+IN pDOBDisplayOption varchar(20)
 )
 BEGIN
 INSERT INTO User 
@@ -27,6 +30,9 @@ INSERT INTO User
     ,Type
     ,Email
     ,Phonenumber
+    ,MobileDisplayOption
+    ,GmailDisplayOption
+    ,DOBDisplayOption
 )
 VALUES
 (
@@ -42,5 +48,8 @@ VALUES
     ,pType
     ,pEmail
     ,pPhonenumber
+    ,pGmailDisplayOption
+    ,pMobileDisplayOption
+    ,pDOBDisplayOption
 );
 END

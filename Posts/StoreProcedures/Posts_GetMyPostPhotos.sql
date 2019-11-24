@@ -17,8 +17,8 @@ select a.PostGUID,a.RecordStatus,a.Type, a.UserGUID, a.FileType, a.Images,
      ifnull(b.Is_Viewed,0) Is_Viewed, ifnull( b.Is_Saved, 0) Is_Saved , 
      ifnull(b.Is_AnsweredQuestion,0) Is_AnsweredQuestion, ifnull(b.Rate,0) Rate ,FOUND_ROWS() as Total_Count
     from Posts as a
-    left outer join PostActions b on a.PostGUID = b.PostGUID and b.UserGUID = userid
-    WHERE a.UserGUID = userid and a.FileType = 1
+    inner join PostActions b on a.PostGUID = b.PostGUID  and a.UserGUID = userid
+    WHERE a.FileType = 1
 LIMIT startIndex , pCount;
     
      drop temporary table temp1;

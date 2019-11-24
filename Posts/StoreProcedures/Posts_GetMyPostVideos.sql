@@ -15,10 +15,12 @@ select a.PostGUID,a.RecordStatus,a.Type, a.UserGUID, a.FileType, a.Videos,
     a.Is_required_viewmovie,a.CategoryGUID,a.Subtitiles,a.Is_Show_To_User,
      ifnull(b.Is_Liked,0) Is_Liked, ifnull( b.Is_Loved,0) Is_Loved, 
      ifnull(b.Is_Viewed,0) Is_Viewed, ifnull( b.Is_Saved, 0) Is_Saved , 
-     ifnull(b.Is_AnsweredQuestion,0) Is_AnsweredQuestion, ifnull(b.Rate,0) Rate ,FOUND_ROWS() as Total_Count
+     ifnull(b.Is_AnsweredQuestion,0) Is_AnsweredQuestion, ifnull(b.Rate,0) Rate ,
+     ifnull(a.Video_TimeStamp,'') as Video_TimeStamp,
+     FOUND_ROWS() as Total_Count
     from Posts as a
-    left outer join PostActions b on a.PostGUID = b.PostGUID and b.UserGUID = userid
-    WHERE a.UserGUID = userid and a.FileType = 2
+    inner join PostActions b on a.PostGUID = b.PostGUID and a.UserGUID = userid
+    WHERE a.FileType = 2
 LIMIT startIndex , pCount;
     
      drop temporary table temp2;

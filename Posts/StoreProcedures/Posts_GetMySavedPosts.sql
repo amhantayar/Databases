@@ -5,7 +5,7 @@ DECLARE startIndex  INT unsigned DEFAULT 0;
 	
 	create temporary table temp3
      select SQL_CALC_FOUND_ROWS PostGUID
-     from Posts 
+     from PostActions 
     WHERE UserGUID = userid;		
      
 select a.PostGUID,a.RecordStatus,a.Type, a.UserGUID, a.FileType, a.Videos, a.Images,
@@ -15,10 +15,12 @@ select a.PostGUID,a.RecordStatus,a.Type, a.UserGUID, a.FileType, a.Videos, a.Ima
     a.Is_required_viewmovie,a.CategoryGUID,a.Subtitiles,a.Is_Show_To_User,
      ifnull(b.Is_Liked,0) Is_Liked, ifnull( b.Is_Loved,0) Is_Loved, 
      ifnull(b.Is_Viewed,0) Is_Viewed, ifnull( b.Is_Saved, 0) Is_Saved , 
-     ifnull(b.Is_AnsweredQuestion,0) Is_AnsweredQuestion, ifnull(b.Rate,0) Rate ,FOUND_ROWS() as Total_Count
+     ifnull(b.Is_AnsweredQuestion,0) Is_AnsweredQuestion, ifnull(b.Rate,0) Rate ,
+     ifnull(a.Video_TimeStamp,'') as Video_TimeStamp,
+     FOUND_ROWS() as Total_Count
     from Posts as a
-    left outer join PostActions b on a.PostGUID = b.PostGUID and b.UserGUID = userid
-    WHERE a.UserGUID = userid
+    inner join PostActions b on a.PostGUID = b.PostGUID and a.UserGUID = userid 
+    where b.Is_saved = 1
 LIMIT startIndex , pCount;
 
    drop temporary table temp3;
